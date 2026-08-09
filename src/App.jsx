@@ -2,6 +2,8 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import QRCode from 'qrcode'
 import defaultLandscapePortrait from './assets/reference-portrait.jpg'
 import defaultRoundPortrait from './assets/reference-portrait-round.jpg'
+import vrLogo from './assets/vr-logo.png'
+import matkahuoltoLogo from './assets/matkahuolto-logo.png'
 
 const STORAGE_KEY = 'one-s-one-c-study-profile-v3'
 const LEGACY_STORAGE_KEY = 'one-s-one-c-study-profile-v2'
@@ -35,13 +37,13 @@ const SECURITY_MARKS = [
   { x: 84.5, y: 94.8, tone: 'rose' },
 ].map((mark) => ({
   ...mark,
-  delay: -((((mark.y / 100) - (mark.x / 100) + 1) / 2) * 1.5),
+  band: Math.round(((mark.x - mark.y) + 81) / 14.5),
+})).map((mark) => ({
+  ...mark,
+  delay: -(((11 - mark.band) / 12) * 1.5),
 }))
 
-const BACK_RINGS = Array.from({ length: 82 }, (_, index) => ({
-  radius: 18 + index * 8.5,
-  phase: `${(index * 11) % 100}%`,
-}))
+const BACK_RINGS = Array.from({ length: 110 }, (_, index) => 10 + index * 6.5)
 
 function getPhoneScale() {
   if (new URLSearchParams(window.location.search).has('native') || window.location.hash === '#native') return 1
@@ -97,7 +99,7 @@ function SignalIcons() {
 
 function BrandMark({ text, small = false, large = false }) {
   const safeText = text.trim() || '1S1C'
-  const baseSize = large ? 42 : (small ? 25 : 29)
+  const baseSize = large ? 39 : (small ? 23 : 27)
   const baseScale = large ? .67 : .66
   const textScale = Math.min(baseScale, baseScale * (4 / Math.max(4, safeText.length)))
   return <span className={`brand-mark${small ? ' small' : ''}${large ? ' large' : ''}`} aria-label={`${safeText} brand mark`}>
@@ -116,14 +118,11 @@ function StudyNetworkMark({ compact = false }) {
 }
 
 function V7Mark({ landscape = false }) {
-  return <svg className={`v7-mark${landscape ? ' landscape' : ''}`} viewBox="0 0 82 40" aria-label="V7">
-    <path d="M1 3h17l13 24L45 3h17L39 38H25Z" />
-    <path d="M50 3h31L61 38H44l15-25H48Z" />
-  </svg>
+  return <img className={`v7-mark${landscape ? ' landscape' : ''}`} src={vrLogo} alt="VR" />
 }
 
 function RouteMark({ compact = false }) {
-  return <span className={`route-mark${compact ? ' compact' : ''}`} aria-label="Routeo"><i /><b>Routeo</b></span>
+  return <img className={`route-mark${compact ? ' compact' : ''}`} src={matkahuoltoLogo} alt="Matkahuolto" />
 }
 
 function RealQrCode({ value }) {
@@ -232,15 +231,15 @@ function CircularTypePattern() {
   const phrase = 'TRAVEL · CULTURE · STUDENT · MUSIC · ART · BOOKS · EVENTS · EXPERIENCES · '
   return <svg className="back-pattern" viewBox="0 0 650 390" aria-hidden="true">
     <defs>
-      {BACK_RINGS.map(({ radius }, index) => <path
+      {BACK_RINGS.map((radius, index) => <path
         id={`back-ring-${index}`}
         key={`path-${radius}`}
         d={`M ${533 - radius} -8 a ${radius} ${radius} 0 1 0 ${radius * 2} 0 a ${radius} ${radius} 0 1 0 ${-radius * 2} 0`}
       />)}
     </defs>
-    {BACK_RINGS.map(({ radius, phase }, index) => {
-      const repeatCount = Math.max(2, Math.ceil((Math.PI * 2 * radius) / 280))
-      return <text key={radius}><textPath href={`#back-ring-${index}`} startOffset={phase}>{phrase.repeat(repeatCount)}</textPath></text>
+    {BACK_RINGS.map((radius, index) => {
+      const repeatCount = Math.max(2, Math.ceil((Math.PI * 2 * radius) / 220))
+      return <text key={radius}><textPath href={`#back-ring-${index}`} startOffset="0%">{phrase.repeat(repeatCount)}</textPath></text>
     })}
   </svg>
 }

@@ -299,34 +299,18 @@ button { cursor: pointer; }
   left: 40px;
   width: 76px;
   height: 38px;
-  fill: #55a841;
+  object-fit: contain;
 }
 
 .route-mark {
   position: absolute;
   z-index: 3;
-  top: 145px;
+  top: 140px;
   left: 29px;
   width: 101px;
-  height: 50px;
-  display: grid;
-  place-items: center;
-  color: #263366;
-  font-family: Arial, sans-serif;
-  font-size: 16px;
-  font-weight: 800;
+  height: 61px;
+  object-fit: contain;
 }
-.route-mark i,
-.route-mark i::after {
-  position: absolute;
-  width: 62px;
-  height: 31px;
-  border: 7px solid currentColor;
-  border-radius: 50%;
-  content: "";
-}
-.route-mark i::after { display: none; }
-.route-mark b { position: relative; z-index: 1; padding: 0 4px; background: rgba(209,227,232,.92); line-height: 1; }
 
 .partner-k1lroy,
 .landscape-k1lroy {
@@ -544,11 +528,7 @@ button { cursor: pointer; }
 .landscape-holder-value { font-weight: 600; }
 
 .v7-mark.landscape { top: 337px; left: 255px; width: 79px; height: 35px; }
-.landscape-face > .route-mark { top: 329px; left: 348px; width: 87px; height: 51px; font-size: 13px; }
-.landscape-face > .route-mark i,
-.landscape-face > .route-mark i::after { width: 54px; height: 28px; border-width: 6px; }
-.landscape-face > .route-mark i::after { inset: -6px; }
-.landscape-face > .route-mark b { background: rgba(157,205,213,.92); }
+.landscape-face > .route-mark { top: 329px; left: 348px; width: 87px; height: 51px; }
 .landscape-k1lroy { top: 338px; left: 455px; font-size: 39px; }
 
 .card-back { background: #82bed0; }
@@ -560,9 +540,9 @@ button { cursor: pointer; }
   width: 650px;
   height: 390px;
   overflow: visible;
-  fill: rgba(20,104,117,.29);
+  fill: rgba(20,104,117,.33);
   font-family: "Arial Narrow", "Roboto Condensed", Arial, sans-serif;
-  font-size: 8px;
+  font-size: 7px;
   font-weight: 800;
   letter-spacing: .12px;
 }
@@ -586,7 +566,7 @@ button { cursor: pointer; }
 .back-copy {
   position: absolute;
   z-index: 3;
-  top: 294px;
+  top: 270px;
   left: 19px;
   width: 289px;
   margin: 0;
@@ -616,7 +596,7 @@ button { cursor: pointer; }
 .back-links b:nth-child(4) { left: 375px; }
 .back-links b:nth-child(5) { left: 471px; }
 .back-links b:nth-child(6) { left: 571px; }
-.back-code { position: absolute; z-index: 3; top: 353px; left: 571px; margin: 0; color: #1e5260; font-family: Arial, sans-serif; font-size: 9.5px; font-weight: 800; white-space: nowrap; }
+.back-code { position: absolute; z-index: 3; top: 336px; left: 571px; margin: 0; color: #1e5260; font-family: Arial, sans-serif; font-size: 9.5px; font-weight: 800; white-space: nowrap; }
 
 .pagination {
   position: absolute;
@@ -676,11 +656,10 @@ button { cursor: pointer; }
 .editor p { margin: 12px 0 0; color: #919ca8; font-size: 10px; line-height: 1.45; }
 
 @keyframes security-flash {
-  0%, 31%, 100% { opacity: .018; }
-  42% { opacity: .09; }
+  0%, 45%, 57%, 100% { opacity: .018; }
+  48% { opacity: .08; }
   51% { opacity: .56; }
-  60% { opacity: .19; }
-  70% { opacity: .025; }
+  54% { opacity: .12; }
 }
 
 @keyframes wave-sweep {
