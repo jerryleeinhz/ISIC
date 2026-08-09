@@ -1,0 +1,7 @@
+node_modules/
+dist/
+.DS_Store
+*.local
+/1.jpg
+/2.jpg
+/3.jpg
