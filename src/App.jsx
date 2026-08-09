@@ -2,6 +2,12 @@ import { useEffect, useRef, useState } from 'react'
 
 const STORAGE_KEY = 'isic-study-demo-profile-v1'
 const DEFAULT_PROFILE = { name: 'Demo Student', school: 'Example University', photo: '' }
+const PHONE_WIDTH = 430
+const PHONE_HEIGHT = 932
+
+function getPhoneScale() {
+  return Math.min(1, window.innerWidth / PHONE_WIDTH, window.innerHeight / PHONE_HEIGHT)
+}
 
 function readProfile() {
   try {
@@ -144,11 +150,18 @@ function App() {
   const [openedAt] = useState(() => new Date())
   const [page, setPage] = useState(0)
   const [editorOpen, setEditorOpen] = useState(false)
+  const [phoneScale, setPhoneScale] = useState(getPhoneScale)
   const gesture = useRef(null)
 
   useEffect(() => {
     const timer = window.setInterval(() => setNow(new Date()), 1000)
     return () => window.clearInterval(timer)
+  }, [])
+
+  useEffect(() => {
+    const updatePhoneScale = () => setPhoneScale(getPhoneScale())
+    window.addEventListener('resize', updatePhoneScale)
+    return () => window.removeEventListener('resize', updatePhoneScale)
   }, [])
 
   useEffect(() => {
@@ -175,7 +188,8 @@ function App() {
 
   const topTime = new Intl.DateTimeFormat('en-GB', { hour: '2-digit', minute: '2-digit', hour12: false }).format(now)
   return <main className="app-shell">
-    <div className="phone" aria-label="student pass demo app">
+    <div className="phone-stage" style={{ width: PHONE_WIDTH * phoneScale, height: PHONE_HEIGHT * phoneScale, '--phone-scale': phoneScale }}>
+      <div className="phone" aria-label="student pass demo app">
       <header className="status-bar"><time>{topTime}</time><SignalIcons /></header>
       <section className="validity-bar" aria-label="current demo validity">
         <button className="back-button" aria-label="previous demo page" onClick={() => setPage((current) => Math.max(0, current - 1))}><ChevronLeft /></button>
@@ -193,7 +207,8 @@ function App() {
       </nav>
       <p className="swipe-label">Swipe through pages</p>
       <button className="edit-trigger" onClick={() => setEditorOpen(true)}>编辑演示资料</button>
-      {editorOpen ? <Editor profile={profile} onChange={setProfile} onClose={() => setEditorOpen(false)} /> : null}
+        {editorOpen ? <Editor profile={profile} onChange={setProfile} onClose={() => setEditorOpen(false)} /> : null}
+      </div>
     </div>
   </main>
 }
