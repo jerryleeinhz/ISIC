@@ -177,9 +177,11 @@ button { cursor: pointer; }
 .landscape-brand-panel {
   position: absolute;
   z-index: 4;
-  color: #347981;
-  background: rgba(250,247,249,.95);
+  color: #3e5861;
+  background: rgba(243,238,243,.97);
   box-shadow: 2px 6px 11px rgba(36,67,75,.17);
+  overflow: hidden;
+  border-radius: 0 0 5px 5px;
 }
 
 .brand-panel {
@@ -200,36 +202,59 @@ button { cursor: pointer; }
   place-items: center;
   overflow: hidden;
   border-radius: 50%;
-  background: #67acb4;
   color: #f9ffff;
   font-family: "Arial Narrow", "Roboto Condensed", Impact, sans-serif;
   font-stretch: condensed;
+  line-height: 1;
+  background: #5b929b;
+}
+.brand-mark b {
+  display: block;
+  width: max-content;
+  color: inherit;
+  font: inherit;
   font-weight: 900;
   letter-spacing: -1.2px;
   line-height: 1;
-  transform: scaleX(.65);
+  transform: scaleX(var(--brand-text-scale));
   transform-origin: center;
 }
 .brand-mark.small { width: 44px; height: 44px; }
-.brand-mark.large { left: 24px; top: 22px; width: 82px; height: 82px; letter-spacing: -1.8px; }
+.brand-mark.large { left: 24px; top: 22px; width: 82px; height: 82px; }
+.brand-mark.large b { letter-spacing: -1.8px; }
 
 .brand-wordmark {
   position: absolute;
-  left: 71px;
-  top: 19px;
-  width: 76px;
+  left: 70px;
+  top: 17px;
+  width: 80px;
   display: flex;
   flex-direction: column;
-  color: #32727a;
-  font-family: Impact, Haettenschweiler, "Arial Narrow", sans-serif;
+  color: #3e5861;
+  font-family: "Arial Narrow", "Aptos Narrow", Arial, sans-serif;
   font-stretch: condensed;
-  font-weight: 800;
-  line-height: .84;
-  letter-spacing: .1px;
+  font-weight: 900;
+  line-height: 1;
   white-space: nowrap;
 }
-.brand-wordmark small { font-size: 8px; font-weight: 800; letter-spacing: .15px; }
-.brand-wordmark strong { font-size: 21px; font-weight: 800; letter-spacing: -.15px; }
+.brand-wordmark small {
+  width: 116%;
+  font-size: 9.5px;
+  font-weight: 900;
+  line-height: 12px;
+  letter-spacing: .1px;
+  transform: scaleX(.86);
+  transform-origin: left center;
+}
+.brand-wordmark strong {
+  width: 128%;
+  font-size: 24px;
+  font-weight: 900;
+  line-height: 25px;
+  letter-spacing: -.55px;
+  transform: scaleX(.78);
+  transform-origin: left center;
+}
 
 .study-network {
   position: absolute;
@@ -451,12 +476,11 @@ button { cursor: pointer; }
 }
 .landscape-brand-panel .brand-wordmark {
   left: 114px;
-  top: 27px;
+  top: 26px;
   width: 122px;
-  line-height: .86;
 }
-.landscape-brand-panel .brand-wordmark small { font-size: 14px; letter-spacing: .3px; }
-.landscape-brand-panel .brand-wordmark strong { font-size: 30px; letter-spacing: -.1px; }
+.landscape-brand-panel .brand-wordmark small { font-size: 14px; line-height: 17px; letter-spacing: .25px; }
+.landscape-brand-panel .brand-wordmark strong { font-size: 31px; line-height: 33px; letter-spacing: -.5px; }
 
 .landscape-number {
   position: absolute;
@@ -492,14 +516,15 @@ button { cursor: pointer; }
   left: 36px;
   width: 305px;
   display: grid;
-  color: #2e5260;
   font-family: "Arial Narrow", Arial, sans-serif;
   line-height: 1;
 }
 .landscape-holder span,
-.landscape-holder small { font-size: 14px; font-weight: 700; line-height: 16px; }
-.landscape-holder strong { margin: 3px 0 4px; font-size: 22px; font-weight: 800; line-height: 22px; }
-.landscape-holder b { margin: 2px 0 4px; font-size: 20px; font-weight: 700; line-height: 19px; }
+.landscape-holder small { color: #3f7378; font-size: 14px; font-weight: 700; line-height: 16px; }
+.landscape-holder strong { margin: 3px 0 4px; color: #1e2f37; font-size: 22px; font-weight: 700; line-height: 22px; }
+.landscape-holder b { margin: 2px 0 4px; color: #1e2f37; font-size: 20px; line-height: 19px; }
+.landscape-holder-name { font-weight: var(--holder-name-weight, 600); }
+.landscape-holder-value { font-weight: 600; }
 
 .v7-mark.landscape { top: 337px; left: 255px; width: 79px; height: 35px; }
 .landscape-face > .route-mark { top: 329px; left: 348px; width: 87px; height: 51px; font-size: 13px; }
@@ -624,8 +649,10 @@ button { cursor: pointer; }
 .editor-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 9px 10px; }
 .editor label { display: grid; gap: 5px; color: #bec6cf; font-size: 11px; }
 .editor label:last-child { grid-column: 1 / -1; }
-.editor input { width: 100%; min-width: 0; padding: 9px 10px; border: 1px solid #3f4a58; border-radius: 9px; outline: none; background: #0d131d; color: #fff; font-size: 14px; }
-.editor input:focus { border-color: #62d7dd; }
+.editor input,
+.editor select { width: 100%; min-width: 0; padding: 9px 10px; border: 1px solid #3f4a58; border-radius: 9px; outline: none; background: #0d131d; color: #fff; font-size: 14px; }
+.editor input:focus,
+.editor select:focus { border-color: #62d7dd; }
 .editor .upload, .editor .clear-photo { margin-top: 12px; padding: 9px 11px; border-radius: 9px; font-size: 12px; font-weight: 700; }
 .editor .upload { border: 0; background: #61d6dd; color: #06262a; }
 .editor .clear-photo { margin-left: 8px; border: 1px solid #59636e; background: transparent; color: #e7ebee; }

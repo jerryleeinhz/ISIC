@@ -11,10 +11,12 @@ const DEFAULT_PROFILE = {
   school: 'aalto university',
   photo: '',
   markText: '1S1C',
+  nameWeight: 600,
   qrUrl: DEFAULT_QR_URL,
 }
 const PHONE_WIDTH = 430
 const PHONE_HEIGHT = 932
+const NAME_WEIGHTS = [300, 400, 500, 600, 700, 800, 900]
 
 const SECURITY_MARKS = [
   { x: 27.5, y: 6, tone: 'rose' },
@@ -96,9 +98,11 @@ function SignalIcons() {
 function BrandMark({ text, small = false, large = false }) {
   const safeText = text.trim() || '1S1C'
   const baseSize = large ? 42 : (small ? 25 : 34)
-  const minSize = large ? 28 : (small ? 16 : 22)
-  const fontSize = Math.max(minSize, baseSize - Math.max(0, safeText.length - 4) * (large ? 2.6 : 1.8))
-  return <span className={`brand-mark${small ? ' small' : ''}${large ? ' large' : ''}`} style={{ fontSize }} aria-label={`${safeText} brand mark`}>{safeText}</span>
+  const baseScale = large ? .48 : .42
+  const textScale = Math.min(baseScale, baseScale * (4 / Math.max(4, safeText.length)))
+  return <span className={`brand-mark${small ? ' small' : ''}${large ? ' large' : ''}`} aria-label={`${safeText} brand mark`}>
+    <b style={{ fontSize: baseSize, '--brand-text-scale': textScale }}>{safeText}</b>
+  </span>
 }
 
 function StudyNetworkMark({ compact = false }) {
@@ -136,13 +140,13 @@ function RealQrCode({ value }) {
     let dataPath = ''
     for (let y = 0; y < size; y += 1) {
       for (let x = 0; x < size; x += 1) {
-        if (qr.modules.data[y * size + x]) dataPath += `M${x + 4} ${y + 4}h1v1h-1z`
+        if (qr.modules.data[y * size + x]) dataPath += `M${x} ${y}h1v1h-1z`
       }
     }
     return dataPath
   }, [qr])
 
-  const viewSize = qr.modules.size + 8
+  const viewSize = qr.modules.size
   return <svg className="real-qr" viewBox={`0 0 ${viewSize} ${viewSize}`} shapeRendering="crispEdges" role="img" aria-label={`QR code for ${value || DEFAULT_QR_URL}`}>
     <rect width={viewSize} height={viewSize} fill="#fff" />
     <path d={path} fill="#121417" />
@@ -174,7 +178,8 @@ function SecurityField({ text }) {
 }
 
 function CardFront({ profile, openedAt, onEdit }) {
-  return <article className="student-card card-front" aria-label="1S1C student card front">
+  const markText = profile.markText.trim() || '1S1C'
+  return <article className="student-card card-front" aria-label={`${markText} student card front`}>
     <div className="front-light-field" aria-hidden="true" />
     <div className="front-top-band" aria-hidden="true" />
     <div className="brand-panel">
@@ -182,7 +187,7 @@ function CardFront({ profile, openedAt, onEdit }) {
       <span className="brand-wordmark"><small>INTERNATIONAL</small><strong>STUDENT</strong><small>IDENTITY CARD</small></span>
     </div>
     <StudyNetworkMark />
-    <div className="card-number"><span>1S1C card number</span><b>S 358 001 034 872 C</b></div>
+    <div className="card-number"><span>{markText} card number</span><b>S 358 001 034 872 C</b></div>
     <V7Mark />
     <RouteMark />
     <div className="partner-k1lroy" aria-label="K1LROY">K1LROY</div>
@@ -198,7 +203,8 @@ function CardFront({ profile, openedAt, onEdit }) {
 }
 
 function CardTilt({ profile, openedAt, onEdit }) {
-  return <article className="student-card card-tilt" aria-label="1S1C student card rotated front">
+  const markText = profile.markText.trim() || '1S1C'
+  return <article className="student-card card-tilt" aria-label={`${markText} student card rotated front`}>
     <div className="landscape-face">
       <div className="landscape-art" aria-hidden="true" />
       <div className="landscape-brand-panel">
@@ -206,13 +212,13 @@ function CardTilt({ profile, openedAt, onEdit }) {
         <span className="brand-wordmark"><small>INTERNATIONAL</small><strong>STUDENT</strong><small>IDENTITY CARD</small></span>
       </div>
       <StudyNetworkMark compact />
-      <div className="landscape-number"><span>1S1C card number</span><b>S 358 001 034 872 C</b></div>
+      <div className="landscape-number"><span>{markText} card number</span><b>S 358 001 034 872 C</b></div>
       <button className="landscape-portrait" type="button" onClick={onEdit} aria-label="更换个人照片" title="点击更换头像"><Portrait photo={profile.photo} variant="landscape" /></button>
-      <div className="landscape-holder">
+      <div className="landscape-holder" style={{ '--holder-name-weight': profile.nameWeight }}>
         <span>Studies at | Étudiant à | Est. de Enseñanza</span><strong>{profile.school}</strong>
-        <small>Name | Nom | Nombre</small><b>{profile.name}</b>
-        <small>Born | Né(e) le | Nacido/a el</small><b>21/01/2003</b>
-        <small>Validity | Validité | Validez</small><b>{validityRange(openedAt)}</b>
+        <small>Name | Nom | Nombre</small><b className="landscape-holder-name">{profile.name}</b>
+        <small>Born | Né(e) le | Nacido/a el</small><b className="landscape-holder-value">21/01/2003</b>
+        <small>Validity | Validité | Validez</small><b className="landscape-holder-value">{validityRange(openedAt)}</b>
       </div>
       <V7Mark landscape />
       <RouteMark compact />
@@ -240,13 +246,14 @@ function CircularTypePattern() {
 }
 
 function CardBack({ markText }) {
-  return <article className="student-card card-back" aria-label="1S1C student card reverse">
+  const safeMarkText = markText.trim() || '1S1C'
+  return <article className="student-card card-back" aria-label={`${safeMarkText} student card reverse`}>
     <div className="landscape-back">
       <CircularTypePattern />
       <p className="back-rim">CARTE D'ÉTUDIANT INTERNATIONALE | CARNET INTERNACIONAL DE ESTUDIANTE</p>
       <div className="back-rule" />
-      <p className="back-copy">THIS CARD IS ISSUED BY AND REMAINS<br />THE PROPERTY OF THE 1S1C LEARNING ASSOCIATION.<br /><span>The holder of this card is a full-time student.<br />Le porteur de cette carte est étudiant à temps complet.<br />El titular de este carnet es estudiante a tiempo completo.</span></p>
-      <div className="back-links"><b>1S1CDANMARK·DK</b><b>1S1C·FI</b><b>1S1C·IS</b><b>1S1C·NL</b><b>1S1C·NO</b><b>1S1C·SE</b></div>
+      <p className="back-copy">THIS CARD IS ISSUED BY AND REMAINS<br />THE PROPERTY OF THE {safeMarkText} LEARNING ASSOCIATION.<br /><span>The holder of this card is a full-time student.<br />Le porteur de cette carte est étudiant à temps complet.<br />El titular de este carnet es estudiante a tiempo completo.</span></p>
+      <div className="back-links"><b>{safeMarkText}DANMARK·DK</b><b>{safeMarkText}·FI</b><b>{safeMarkText}·IS</b><b>{safeMarkText}·NL</b><b>{safeMarkText}·NO</b><b>{safeMarkText}·SE</b></div>
       <p className="back-code">SA-358-031</p>
     </div>
     <SecurityField text={markText} />
@@ -268,13 +275,14 @@ function Editor({ profile, onChange, onClose }) {
     <div className="editor-fields">
       <label>姓名<input value={profile.name} maxLength="28" onChange={(event) => onChange({ ...profile, name: event.target.value })} /></label>
       <label>学校<input value={profile.school} maxLength="36" onChange={(event) => onChange({ ...profile, school: event.target.value })} /></label>
-      <label>圆章及左上标识文字<input value={profile.markText} maxLength="8" onChange={(event) => onChange({ ...profile, markText: event.target.value })} /></label>
+      <label>全部标识文字<input value={profile.markText} maxLength="8" onChange={(event) => onChange({ ...profile, markText: event.target.value })} /></label>
+      <label>图2姓名粗度<select value={profile.nameWeight} onChange={(event) => onChange({ ...profile, nameWeight: Number(event.target.value) })}>{NAME_WEIGHTS.map((weight) => <option value={weight} key={weight}>{weight}</option>)}</select></label>
       <label>二维码目标网址<input type="url" value={profile.qrUrl} maxLength="512" onChange={(event) => onChange({ ...profile, qrUrl: event.target.value })} /></label>
     </div>
     <input ref={uploadRef} type="file" accept="image/*" hidden onChange={selectPhoto} />
     <button type="button" className="upload" onClick={() => uploadRef.current?.click()}>上传头像</button>
     {profile.photo ? <button type="button" className="clear-photo" onClick={() => onChange({ ...profile, photo: '' })}>恢复参考头像</button> : null}
-    <p>标识文字、二维码网址、姓名、学校和照片都可修改，并只保存在当前浏览器。二维码是真实可扫描的。</p>
+    <p>标识文字、图2姓名粗度、二维码网址、姓名、学校和照片都可修改，并只保存在当前浏览器。二维码是真实可扫描的。</p>
   </section>
 }
 
@@ -303,6 +311,11 @@ function App() {
   }, [profile])
 
   useEffect(() => {
+    const markText = profile.markText.trim() || '1S1C'
+    document.title = `${markText} Student Card`
+  }, [profile.markText])
+
+  useEffect(() => {
     const onKeyDown = (event) => {
       if (event.key === 'ArrowLeft') setPage((current) => Math.max(0, current - 1))
       if (event.key === 'ArrowRight') setPage((current) => Math.min(2, current + 1))
@@ -323,7 +336,7 @@ function App() {
 
   return <main className="app-shell">
     <div className="phone-stage" style={{ width: PHONE_WIDTH * phoneScale, height: PHONE_HEIGHT * phoneScale, '--phone-scale': phoneScale }}>
-      <div className="phone" aria-label="1S1C student card learning app">
+      <div className="phone" aria-label={`${profile.markText.trim() || '1S1C'} student card learning app`}>
         <header className="status-bar"><time>{`${twoDigits(now.getHours())}:${twoDigits(now.getMinutes())}`}</time><SignalIcons /></header>
         <section className="validity-bar" aria-label="current validity">
           <button className="back-button" type="button" aria-label="previous page" onClick={() => setPage((current) => Math.max(0, current - 1))}><ChevronLeft /></button>
