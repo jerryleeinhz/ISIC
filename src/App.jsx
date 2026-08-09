@@ -12,7 +12,7 @@ const DEFAULT_PROFILE = {
   name: 'wanyi pan',
   school: 'aalto university',
   photo: '',
-  markText: '1S1C',
+  markText: 'ISIC',
   nameWeight: 600,
   qrUrl: DEFAULT_QR_URL,
 }
@@ -43,7 +43,8 @@ const SECURITY_MARKS = [
   delay: -(((11 - mark.band) / 12) * 1.5),
 }))
 
-const BACK_RINGS = Array.from({ length: 110 }, (_, index) => 10 + index * 6.5)
+const BACK_RINGS = Array.from({ length: 78 }, (_, index) => 12 + index * 9.2)
+const BACK_PARAGRAPH = `Learning becomes memorable when curiosity moves beyond the classroom and meets unfamiliar streets, languages, libraries, studios, landscapes, and people. A student journey can begin with a quiet question and continue through conversations that connect history with technology, music with mathematics, design with daily life, and local traditions with global ideas. Every visit offers a chance to notice details, compare perspectives, listen carefully, and return with a wider sense of possibility. Museums preserve stories, theatres turn reflection into performance, trains reveal the changing character of a region, and shared tables make room for generous exchanges. Books provide patient companions while architecture records the ambitions of earlier generations in stone, glass, timber, and light. New experiences do not replace what a learner already knows; they test it, refine it, and give it a richer context. Responsible travel also asks for attention to communities, public spaces, natural resources, and the small choices that shape a welcoming place. The value of an international student community lies in its many independent voices and in the respect that allows those voices to meet. Exploration can be practical as well as inspiring: finding a route, understanding a custom, learning a phrase, supporting a local artist, or discovering an unexpected connection between subjects. Knowledge grows through movement, observation, participation, and the willingness to remain open to revision. A card may be a simple object, yet it can represent access to culture, education, friendship, and the continuing work of becoming an attentive citizen of the world.`
 
 function getPhoneScale() {
   if (new URLSearchParams(window.location.search).has('native') || window.location.hash === '#native') return 1
@@ -53,7 +54,10 @@ function getPhoneScale() {
 function readProfile() {
   try {
     const saved = localStorage.getItem(STORAGE_KEY) || localStorage.getItem(LEGACY_STORAGE_KEY)
-    return saved ? { ...DEFAULT_PROFILE, ...JSON.parse(saved) } : DEFAULT_PROFILE
+    if (!saved) return DEFAULT_PROFILE
+    const profile = { ...DEFAULT_PROFILE, ...JSON.parse(saved) }
+    if (profile.markText.trim().toUpperCase() === '1S1C') profile.markText = 'ISIC'
+    return profile
   } catch {
     return DEFAULT_PROFILE
   }
@@ -98,8 +102,8 @@ function SignalIcons() {
 }
 
 function BrandMark({ text, small = false, large = false }) {
-  const safeText = text.trim() || '1S1C'
-  const baseSize = large ? 39 : (small ? 23 : 27)
+  const safeText = text.trim() || 'ISIC'
+  const baseSize = large ? 33 : (small ? 20 : 23)
   const baseScale = large ? .67 : .66
   const textScale = Math.min(baseScale, baseScale * (4 / Math.max(4, safeText.length)))
   return <span className={`brand-mark${small ? ' small' : ''}${large ? ' large' : ''}`} aria-label={`${safeText} brand mark`}>
@@ -158,7 +162,7 @@ function Portrait({ photo, variant }) {
 }
 
 function SecurityField({ text }) {
-  const safeText = text.trim() || '1S1C'
+  const safeText = text.trim() || 'ISIC'
   return <>
     <div className="security-field" aria-hidden="true">
       {SECURITY_MARKS.map((mark, index) => <span
@@ -177,7 +181,7 @@ function SecurityField({ text }) {
 }
 
 function CardFront({ profile, openedAt, onEdit }) {
-  const markText = profile.markText.trim() || '1S1C'
+  const markText = profile.markText.trim() || 'ISIC'
   return <article className="student-card card-front" aria-label={`${markText} student card front`}>
     <div className="front-light-field" aria-hidden="true" />
     <div className="front-top-band" aria-hidden="true" />
@@ -202,7 +206,7 @@ function CardFront({ profile, openedAt, onEdit }) {
 }
 
 function CardTilt({ profile, openedAt, onEdit }) {
-  const markText = profile.markText.trim() || '1S1C'
+  const markText = profile.markText.trim() || 'ISIC'
   return <article className="student-card card-tilt" aria-label={`${markText} student card rotated front`}>
     <div className="landscape-face">
       <div className="landscape-art" aria-hidden="true" />
@@ -228,7 +232,6 @@ function CardTilt({ profile, openedAt, onEdit }) {
 }
 
 function CircularTypePattern() {
-  const phrase = 'TRAVEL · CULTURE · STUDENT · MUSIC · ART · BOOKS · EVENTS · EXPERIENCES · '
   return <svg className="back-pattern" viewBox="0 0 650 390" aria-hidden="true">
     <defs>
       {BACK_RINGS.map((radius, index) => <path
@@ -238,14 +241,18 @@ function CircularTypePattern() {
       />)}
     </defs>
     {BACK_RINGS.map((radius, index) => {
-      const repeatCount = Math.max(2, Math.ceil((Math.PI * 2 * radius) / 220))
-      return <text key={radius}><textPath href={`#back-ring-${index}`} startOffset="0%">{phrase.repeat(repeatCount)}</textPath></text>
+      const circumference = Math.PI * 2 * radius
+      const characterCount = Math.min(BACK_PARAGRAPH.length, Math.max(20, Math.ceil(circumference / 4.2)))
+      const availableStart = Math.max(1, BACK_PARAGRAPH.length - characterCount)
+      const start = (index * 173) % availableStart
+      const ringText = BACK_PARAGRAPH.slice(start, start + characterCount)
+      return <text key={radius}><textPath href={`#back-ring-${index}`} startOffset="0%" textLength={circumference.toFixed(1)} lengthAdjust="spacing">{ringText}</textPath></text>
     })}
   </svg>
 }
 
 function CardBack({ markText }) {
-  const safeMarkText = markText.trim() || '1S1C'
+  const safeMarkText = markText.trim() || 'ISIC'
   return <article className="student-card card-back" aria-label={`${safeMarkText} student card reverse`}>
     <div className="landscape-back">
       <CircularTypePattern />
@@ -310,7 +317,7 @@ function App() {
   }, [profile])
 
   useEffect(() => {
-    const markText = profile.markText.trim() || '1S1C'
+    const markText = profile.markText.trim() || 'ISIC'
     document.title = `${markText} Student Card`
   }, [profile.markText])
 
@@ -335,7 +342,7 @@ function App() {
 
   return <main className="app-shell">
     <div className="phone-stage" style={{ width: PHONE_WIDTH * phoneScale, height: PHONE_HEIGHT * phoneScale, '--phone-scale': phoneScale }}>
-      <div className="phone" aria-label={`${profile.markText.trim() || '1S1C'} student card learning app`}>
+      <div className="phone" aria-label={`${profile.markText.trim() || 'ISIC'} student card learning app`}>
         <header className="status-bar"><time>{`${twoDigits(now.getHours())}:${twoDigits(now.getMinutes())}`}</time><SignalIcons /></header>
         <section className="validity-bar" aria-label="current validity">
           <button className="back-button" type="button" aria-label="previous page" onClick={() => setPage((current) => Math.max(0, current - 1))}><ChevronLeft /></button>

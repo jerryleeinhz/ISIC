@@ -439,7 +439,7 @@ button { cursor: pointer; }
   inset: -55%;
   pointer-events: none;
   opacity: .16;
-  background: linear-gradient(135deg, transparent 46.5%, rgba(255,255,255,.07) 48.5%, rgba(255,255,255,.38) 50%, rgba(255,255,255,.06) 51.5%, transparent 53.5%);
+  background: linear-gradient(45deg, transparent 46.5%, rgba(255,255,255,.07) 48.5%, rgba(255,255,255,.38) 50%, rgba(255,255,255,.06) 51.5%, transparent 53.5%);
   mix-blend-mode: screen;
   transform: translate(-22%, 22%);
   animation: wave-sweep 1.5s linear infinite;
@@ -542,7 +542,7 @@ button { cursor: pointer; }
   overflow: visible;
   fill: rgba(20,104,117,.33);
   font-family: "Arial Narrow", "Roboto Condensed", Arial, sans-serif;
-  font-size: 7px;
+  font-size: 7.2px;
   font-weight: 800;
   letter-spacing: .12px;
 }
