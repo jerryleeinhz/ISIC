@@ -198,8 +198,6 @@ button { cursor: pointer; }
   top: 14.5px;
   width: 53px;
   height: 53px;
-  display: grid;
-  place-items: center;
   overflow: hidden;
   border-radius: 50%;
   color: #f9ffff;
@@ -209,6 +207,9 @@ button { cursor: pointer; }
   background: #5b929b;
 }
 .brand-mark b {
+  position: absolute;
+  left: 50%;
+  top: 50%;
   display: block;
   width: max-content;
   color: inherit;
@@ -216,7 +217,7 @@ button { cursor: pointer; }
   font-weight: 900;
   letter-spacing: -1.2px;
   line-height: 1;
-  transform: scaleX(var(--brand-text-scale));
+  transform: translate(-50%, calc(-50% + .5px)) scaleX(var(--brand-text-scale));
   transform-origin: center;
 }
 .brand-mark.small { width: 44px; height: 44px; }
@@ -248,11 +249,13 @@ button { cursor: pointer; }
 }
 .brand-wordmark strong {
   width: 128%;
+  color: #78b8ad;
+  font-family: Impact, Haettenschweiler, "Arial Narrow", sans-serif;
   font-size: 24px;
-  font-weight: 900;
+  font-weight: 400;
   line-height: 25px;
-  letter-spacing: -.55px;
-  transform: scaleX(.78);
+  letter-spacing: -.1px;
+  transform: scaleX(.88);
   transform-origin: left center;
 }
 
@@ -424,7 +427,21 @@ button { cursor: pointer; }
 .security-mark.rose { background: linear-gradient(112deg, #e9a8d1 8%, #dededc 92%); }
 .security-mark.mint { background: linear-gradient(112deg, #b6e7c6 8%, #d9e7dc 92%); }
 .security-mark b {
-  transform: rotate(-135deg) scaleX(calc(.72 * var(--mark-font-scale)));
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  transform: rotate(-135deg);
+  transform-origin: center;
+}
+.security-mark b span {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  display: block;
+  width: max-content;
+  transform: translate(-50%, calc(-50% + .5px)) scaleX(calc(.72 * var(--mark-font-scale)));
+  transform-origin: center;
   font-family: "Arial Narrow", "Roboto Condensed", Arial, sans-serif;
   font-size: 38px;
   font-stretch: condensed;
@@ -543,11 +560,11 @@ button { cursor: pointer; }
   width: 650px;
   height: 390px;
   overflow: visible;
-  fill: rgba(20,104,117,.3);
+  fill: rgba(20,104,117,.29);
   font-family: "Arial Narrow", "Roboto Condensed", Arial, sans-serif;
-  font-size: 9px;
+  font-size: 8px;
   font-weight: 800;
-  letter-spacing: .25px;
+  letter-spacing: .12px;
 }
 .back-rim {
   position: absolute;

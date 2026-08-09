@@ -35,12 +35,12 @@ const SECURITY_MARKS = [
   { x: 84.5, y: 94.8, tone: 'rose' },
 ].map((mark) => ({
   ...mark,
-  delay: -((((mark.x / 100) - (mark.y / 100) + 1) / 2) * 1.5),
+  delay: -((((mark.y / 100) - (mark.x / 100) + 1) / 2) * 1.5),
 }))
 
-const BACK_RINGS = Array.from({ length: 50 }, (_, index) => ({
-  radius: 25 + index * 13,
-  phase: `${(index * 17) % 100}%`,
+const BACK_RINGS = Array.from({ length: 82 }, (_, index) => ({
+  radius: 18 + index * 8.5,
+  phase: `${(index * 11) % 100}%`,
 }))
 
 function getPhoneScale() {
@@ -97,8 +97,8 @@ function SignalIcons() {
 
 function BrandMark({ text, small = false, large = false }) {
   const safeText = text.trim() || '1S1C'
-  const baseSize = large ? 42 : (small ? 25 : 34)
-  const baseScale = large ? .48 : .42
+  const baseSize = large ? 42 : (small ? 25 : 29)
+  const baseScale = large ? .67 : .66
   const textScale = Math.min(baseScale, baseScale * (4 / Math.max(4, safeText.length)))
   return <span className={`brand-mark${small ? ' small' : ''}${large ? ' large' : ''}`} aria-label={`${safeText} brand mark`}>
     <b style={{ fontSize: baseSize, '--brand-text-scale': textScale }}>{safeText}</b>
@@ -171,7 +171,7 @@ function SecurityField({ text }) {
           '--mark-delay': `${mark.delay.toFixed(3)}s`,
           '--mark-font-scale': Math.max(.62, 1 - Math.max(0, safeText.length - 4) * .08),
         }}
-      ><b>{safeText}</b></span>)}
+      ><b><span>{safeText}</span></b></span>)}
     </div>
     <div className="wave-sweep" aria-hidden="true" />
   </>
@@ -229,7 +229,7 @@ function CardTilt({ profile, openedAt, onEdit }) {
 }
 
 function CircularTypePattern() {
-  const phrase = 'TRAVEL · CULTURE · MUSEUMS · MOVIES · THEATRES · SPORTS · ADVENTURE · MUSIC · ART · CONCERTS · ONLINE · DISCOUNTS · EVENTS · CLUBS · HOSTELS · ACCOMMODATION · BOOKS · RESTAURANTS · EXPERIENCES · FESTIVALS · COMMUNICATION · GETAWAYS · '
+  const phrase = 'TRAVEL · CULTURE · STUDENT · MUSIC · ART · BOOKS · EVENTS · EXPERIENCES · '
   return <svg className="back-pattern" viewBox="0 0 650 390" aria-hidden="true">
     <defs>
       {BACK_RINGS.map(({ radius }, index) => <path
@@ -239,7 +239,7 @@ function CircularTypePattern() {
       />)}
     </defs>
     {BACK_RINGS.map(({ radius, phase }, index) => {
-      const repeatCount = Math.max(2, Math.ceil((Math.PI * 2 * radius) / 500))
+      const repeatCount = Math.max(2, Math.ceil((Math.PI * 2 * radius) / 280))
       return <text key={radius}><textPath href={`#back-ring-${index}`} startOffset={phase}>{phrase.repeat(repeatCount)}</textPath></text>
     })}
   </svg>
