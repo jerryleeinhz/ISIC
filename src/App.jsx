@@ -7,7 +7,8 @@ import matkahuoltoLogo from './assets/matkahuolto-logo.png'
 
 const STORAGE_KEY = 'one-s-one-c-study-profile-v3'
 const LEGACY_STORAGE_KEY = 'one-s-one-c-study-profile-v2'
-const DEFAULT_QR_URL = 'https://github.com/jerryleeinhz/ISIC'
+const DEFAULT_QR_URL = 'https://jerryleeinhz.github.io/ISIC/'
+const LEGACY_QR_URL = 'https://github.com/jerryleeinhz/ISIC'
 const DEFAULT_PROFILE = {
   name: 'wanyi pan',
   school: 'aalto university',
@@ -57,6 +58,7 @@ function readProfile() {
     if (!saved) return DEFAULT_PROFILE
     const profile = { ...DEFAULT_PROFILE, ...JSON.parse(saved) }
     if (profile.markText.trim().toUpperCase() === '1S1C') profile.markText = 'ISIC'
+    if (profile.qrUrl.trim() === LEGACY_QR_URL) profile.qrUrl = DEFAULT_QR_URL
     return profile
   } catch {
     return DEFAULT_PROFILE

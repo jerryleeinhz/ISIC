@@ -1,5 +1,7 @@
 # ISIC Student Card UI
 
+Live site: https://jerryleeinhz.github.io/ISIC/
+
 一个用于学习移动端网页布局、触摸滑动、CSS 动画和本地状态保存的 React 项目。
 
 ## 快速检查
