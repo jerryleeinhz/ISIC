@@ -312,8 +312,8 @@ button { cursor: pointer; }
   object-fit: contain;
 }
 
-.partner-k1lroy,
-.landscape-k1lroy {
+.partner-kilroy,
+.landscape-kilroy {
   position: absolute;
   z-index: 3;
   color: rgba(255,255,255,.98);
@@ -324,7 +324,7 @@ button { cursor: pointer; }
   letter-spacing: .6px;
   transform: skewX(-7deg);
 }
-.partner-k1lroy { top: 126px; left: 259px; font-size: 32px; }
+.partner-kilroy { top: 126px; left: 259px; font-size: 32px; }
 
 .portrait-wrap {
   position: absolute;
@@ -439,7 +439,7 @@ button { cursor: pointer; }
   inset: -55%;
   pointer-events: none;
   opacity: .16;
-  background: linear-gradient(45deg, transparent 46.5%, rgba(255,255,255,.07) 48.5%, rgba(255,255,255,.38) 50%, rgba(255,255,255,.06) 51.5%, transparent 53.5%);
+  background: linear-gradient(135deg, transparent 46.5%, rgba(255,255,255,.07) 48.5%, rgba(255,255,255,.38) 50%, rgba(255,255,255,.06) 51.5%, transparent 53.5%);
   mix-blend-mode: screen;
   transform: translate(-22%, 22%);
   animation: wave-sweep 1.5s linear infinite;
@@ -529,7 +529,7 @@ button { cursor: pointer; }
 
 .v7-mark.landscape { top: 337px; left: 255px; width: 79px; height: 35px; }
 .landscape-face > .route-mark { top: 329px; left: 348px; width: 87px; height: 51px; }
-.landscape-k1lroy { top: 338px; left: 455px; font-size: 39px; }
+.landscape-kilroy { top: 338px; left: 455px; font-size: 39px; }
 
 .card-back { background: #82bed0; }
 .landscape-back { color: #1d6270; background: #82bed0; }

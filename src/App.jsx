@@ -193,7 +193,7 @@ function CardFront({ profile, openedAt, onEdit }) {
     <div className="card-number"><span>{markText} card number</span><b>S 358 001 034 872 C</b></div>
     <V7Mark />
     <RouteMark />
-    <div className="partner-k1lroy" aria-label="K1LROY">K1LROY</div>
+    <div className="partner-kilroy" aria-label="KILROY">KILROY</div>
     <button className="portrait-wrap" type="button" onClick={onEdit} aria-label="更换个人照片" title="点击更换头像"><Portrait photo={profile.photo} variant="round" /></button>
     <div className="holder-details"><h1>{profile.name}</h1><p>{profile.school}</p></div>
     <div className="card-bottom-row">
@@ -225,7 +225,7 @@ function CardTilt({ profile, openedAt, onEdit }) {
       </div>
       <V7Mark landscape />
       <RouteMark compact />
-      <div className="landscape-k1lroy" aria-label="K1LROY">K1LROY</div>
+      <div className="landscape-kilroy" aria-label="KILROY">KILROY</div>
     </div>
     <SecurityField text={profile.markText} />
   </article>
