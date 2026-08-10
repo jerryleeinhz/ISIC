@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - agent/fix-html-preview
   workflow_dispatch:
 
 permissions:
