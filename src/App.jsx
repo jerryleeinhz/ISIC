@@ -18,7 +18,7 @@ const DEFAULT_PROFILE = {
   qrUrl: DEFAULT_QR_URL,
 }
 const PHONE_WIDTH = 430
-const PHONE_HEIGHT = 932
+const PHONE_HEIGHT = 873
 const NAME_WEIGHTS = [300, 400, 500, 600, 700, 800, 900]
 
 const SECURITY_MARKS = [
@@ -95,14 +95,6 @@ function validityRange(date) {
 
 function ChevronLeft() {
   return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15.2 3.2-8.5 8.8 8.5 8.8" /></svg>
-}
-
-function SignalIcons() {
-  return <div className="phone-icons" aria-label="signal, wifi, battery full">
-    <span className="signal" aria-hidden="true"><i /><i /><i /><i /></span>
-    <svg className="wifi" viewBox="0 0 24 24" aria-hidden="true"><path d="M2.7 8.5a14 14 0 0 1 18.6 0M5.8 12a9.4 9.4 0 0 1 12.4 0M9.2 15.5a4.3 4.3 0 0 1 5.6 0M12 19h.01" /></svg>
-    <span className="battery" aria-hidden="true">100</span>
-  </div>
 }
 
 function BrandMark({ text, small = false, large = false }) {
@@ -347,7 +339,6 @@ function App() {
   return <main className="app-shell">
     <div className="phone-stage" style={{ width: PHONE_WIDTH * phoneScale, height: PHONE_HEIGHT * phoneScale, '--phone-scale': phoneScale }}>
       <div className="phone" aria-label={`${profile.markText.trim() || 'ISIC'} student card learning app`}>
-        <header className="status-bar"><time>{`${twoDigits(now.getHours())}:${twoDigits(now.getMinutes())}`}</time><SignalIcons /></header>
         <section className="validity-bar" aria-label="current validity">
           <button className="back-button" type="button" aria-label="previous page" onClick={() => setPage((current) => Math.max(0, current - 1))}><ChevronLeft /></button>
           <span className="status-dot" /><strong>VALID</strong><time>{formatStatusTime(now)}</time>
