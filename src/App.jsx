@@ -36,12 +36,13 @@ const SECURITY_MARKS = [
   { x: 56, y: 80, tone: 'mint' },
   { x: 27.5, y: 94.8, tone: 'mint' },
   { x: 84.5, y: 94.8, tone: 'rose' },
-].map((mark) => ({
+].map((mark, index) => {
+  const row = Math.floor(index / 2)
+  const column = Math.round((mark.x + 1) / 28.5)
+  return { ...mark, band: (column - row + 5) / 2 }
+}).map((mark) => ({
   ...mark,
-  band: Math.round(((mark.x - mark.y) + 81) / 14.5),
-})).map((mark) => ({
-  ...mark,
-  delay: -(((11 - mark.band) / 12) * 1.5),
+  delay: -(((4 - mark.band) / 5) * 1.5),
 }))
 
 const BACK_RINGS = Array.from({ length: 78 }, (_, index) => 12 + index * 9.2)
