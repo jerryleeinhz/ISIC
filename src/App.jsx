@@ -20,6 +20,7 @@ const DEFAULT_PROFILE = {
 const PHONE_WIDTH = 430
 const PHONE_HEIGHT = 873
 const NAME_WEIGHTS = [300, 400, 500, 600, 700, 800, 900]
+const SECURITY_WAVE_ROW_STEP = .18
 
 const SECURITY_MARKS = [
   { x: 27.5, y: 6, tone: 'rose' },
@@ -42,7 +43,7 @@ const SECURITY_MARKS = [
   return { ...mark, band: (column - row + 5) / 2 }
 }).map((mark) => ({
   ...mark,
-  delay: -(((4 - mark.band) / 5) * 1.5),
+  delay: -((4 - mark.band) * SECURITY_WAVE_ROW_STEP),
 }))
 
 const BACK_RINGS = Array.from({ length: 78 }, (_, index) => 12 + index * 9.2)
