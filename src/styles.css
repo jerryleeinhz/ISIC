@@ -351,17 +351,24 @@ button { cursor: pointer; }
   height: 85px;
   display: grid;
   place-items: center;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%) scale(.97);
   border-radius: 50%;
   opacity: .018;
   color: #258189;
   filter: saturate(.8);
   mix-blend-mode: screen;
-  animation: security-flash 1.5s linear infinite;
+  will-change: transform, opacity;
+  animation: security-wave 2.1s linear infinite;
   animation-delay: var(--mark-delay);
 }
-.security-mark.rose { background: linear-gradient(112deg, #e9a8d1 8%, #dededc 92%); }
-.security-mark.mint { background: linear-gradient(112deg, #b6e7c6 8%, #d9e7dc 92%); }
+.security-mark.rose {
+  background: linear-gradient(112deg, #e9a8d1 8%, #dededc 92%);
+  box-shadow: 0 0 18px 4px rgba(233,168,209,.3), inset 0 0 14px rgba(255,255,255,.18);
+}
+.security-mark.mint {
+  background: linear-gradient(112deg, #b6e7c6 8%, #d9e7dc 92%);
+  box-shadow: 0 0 18px 4px rgba(182,231,198,.3), inset 0 0 14px rgba(255,255,255,.18);
+}
 .security-mark b {
   position: absolute;
   inset: 0;
@@ -388,13 +395,15 @@ button { cursor: pointer; }
 .wave-sweep {
   position: absolute;
   z-index: 6;
-  inset: -55%;
+  inset: -65%;
   pointer-events: none;
-  opacity: .16;
-  background: linear-gradient(135deg, transparent 46.5%, rgba(255,255,255,.07) 48.5%, rgba(255,255,255,.38) 50%, rgba(255,255,255,.06) 51.5%, transparent 53.5%);
+  opacity: 0;
+  background: linear-gradient(135deg, transparent 43%, rgba(255,255,255,.035) 47%, rgba(255,255,255,.2) 50%, rgba(255,255,255,.035) 53%, transparent 57%);
   mix-blend-mode: screen;
-  transform: translate(-22%, 22%);
-  animation: wave-sweep 1.5s linear infinite;
+  transform: translate(-28%, 28%);
+  will-change: transform, opacity;
+  animation: wave-sweep 2.1s linear infinite;
+  animation-delay: -.36s;
 }
 
 .card-tilt { background: #85bec8; }
@@ -607,16 +616,21 @@ button { cursor: pointer; }
 .editor .clear-photo { margin-left: 8px; border: 1px solid #59636e; background: transparent; color: #e7ebee; }
 .editor p { margin: 12px 0 0; color: #919ca8; font-size: 10px; line-height: 1.45; }
 
-@keyframes security-flash {
-  0%, 45%, 57%, 100% { opacity: .018; }
-  48% { opacity: .08; }
-  51% { opacity: .56; }
-  54% { opacity: .12; }
+@keyframes security-wave {
+  0%, 27%, 82%, 100% { opacity: .018; transform: translate(-50%, -50%) scale(.97); }
+  35% { opacity: .065; transform: translate(-50%, -50%) scale(.982); }
+  43% { opacity: .22; transform: translate(-50%, -50%) scale(1); }
+  51% { opacity: .52; transform: translate(-50%, -50%) scale(1.035); }
+  59% { opacity: .3; transform: translate(-50%, -50%) scale(1.015); }
+  69% { opacity: .09; transform: translate(-50%, -50%) scale(.985); }
 }
 
 @keyframes wave-sweep {
-  from { transform: translate(-22%, 22%); }
-  to { transform: translate(22%, -22%); }
+  0%, 25% { opacity: 0; transform: translate(-28%, 28%); }
+  34% { opacity: .04; }
+  52% { opacity: .1; }
+  70% { opacity: .04; }
+  79%, 100% { opacity: 0; transform: translate(28%, -28%); }
 }
 
 @media (prefers-reduced-motion: reduce) {
