@@ -3,7 +3,7 @@ import { basename, extname, resolve } from 'node:path'
 
 const projectRoot = resolve(import.meta.dirname, '..')
 const distDir = resolve(projectRoot, 'dist')
-const template = await readFile(resolve(distDir, 'index.html'), 'utf8')
+const template = (await readFile(resolve(distDir, 'index.html'), 'utf8')).replaceAll('\r\n', '\n')
 
 const scriptMatch = template.match(/<script[^>]+src="([^"]+)"[^>]*><\/script>/)
 const styleMatch = template.match(/<link[^>]+href="([^"]+\.css)"[^>]*>/)

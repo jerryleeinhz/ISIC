@@ -49,7 +49,9 @@ const BACK_PARAGRAPH = `Learning becomes memorable when curiosity moves beyond t
 
 function getPhoneScale() {
   if (new URLSearchParams(window.location.search).has('native') || window.location.hash === '#native') return 1
-  return Math.min(1, window.innerWidth / PHONE_WIDTH, window.innerHeight / PHONE_HEIGHT)
+  const widthScale = window.innerWidth / PHONE_WIDTH
+  const heightScale = window.innerHeight / PHONE_HEIGHT
+  return window.innerHeight >= window.innerWidth ? widthScale : Math.min(widthScale, heightScale)
 }
 
 function readProfile() {
