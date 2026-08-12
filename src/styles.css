@@ -374,7 +374,7 @@ button { cursor: pointer; }
   inset: 0;
   display: grid;
   place-items: center;
-  transform: rotate(-135deg);
+  transform: rotate(var(--mark-rotation));
   transform-origin: center;
 }
 .security-mark b span {

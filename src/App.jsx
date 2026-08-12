@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import QRCode from 'qrcode'
-import defaultLandscapePortrait from './assets/reference-portrait.jpg'
-import defaultRoundPortrait from './assets/reference-portrait-round.jpg'
+import defaultPortrait from './assets/profile-130x170.jpg'
 import vrLogo from './assets/vr-logo.png'
 import matkahuoltoLogo from './assets/matkahuolto-logo.png'
 
@@ -21,6 +20,7 @@ const PHONE_WIDTH = 430
 const PHONE_HEIGHT = 873
 const NAME_WEIGHTS = [300, 400, 500, 600, 700, 800, 900]
 const SECURITY_WAVE_ROW_STEP = .18
+const SECURITY_ROTATIONS = [-135, 45, -45, 135, 45, -135, 135, -45, -45, 135, -135, 45, 135, -45]
 
 const SECURITY_MARKS = [
   { x: 27.5, y: 6, tone: 'rose' },
@@ -40,7 +40,7 @@ const SECURITY_MARKS = [
 ].map((mark, index) => {
   const row = Math.floor(index / 2)
   const column = Math.round((mark.x + 1) / 28.5)
-  return { ...mark, band: (column - row + 5) / 2 }
+  return { ...mark, band: (column - row + 5) / 2, rotation: SECURITY_ROTATIONS[index] }
 }).map((mark) => ({
   ...mark,
   delay: -((4 - mark.band) * SECURITY_WAVE_ROW_STEP),
@@ -101,7 +101,7 @@ function ChevronLeft() {
 
 function BrandMark({ text, small = false, large = false }) {
   const safeText = text.trim() || 'ISIC'
-  const baseSize = large ? 33 : (small ? 20 : 23)
+  const baseSize = large ? 36 : (small ? 20 : 28)
   const baseScale = large ? .67 : .66
   const textScale = Math.min(baseScale, baseScale * (4 / Math.max(4, safeText.length)))
   return <span className={`brand-mark${small ? ' small' : ''}${large ? ' large' : ''}`} aria-label={`${safeText} brand mark`}>
@@ -155,7 +155,7 @@ function RealQrCode({ value }) {
 }
 
 function Portrait({ photo, variant }) {
-  const source = photo || (variant === 'landscape' ? defaultLandscapePortrait : defaultRoundPortrait)
+  const source = photo || defaultPortrait
   return <img className="portrait-image" src={source} alt={`${variant === 'landscape' ? 'landscape ' : ''}profile preview`} />
 }
 
@@ -170,6 +170,7 @@ function SecurityField({ text }) {
           '--mark-x': `${mark.x}%`,
           '--mark-y': `${mark.y}%`,
           '--mark-delay': `${mark.delay.toFixed(3)}s`,
+          '--mark-rotation': `${mark.rotation}deg`,
           '--mark-font-scale': Math.max(.62, 1 - Math.max(0, safeText.length - 4) * .08),
         }}
       ><b><span>{safeText}</span></b></span>)}
