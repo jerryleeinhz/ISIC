@@ -403,7 +403,7 @@ button { cursor: pointer; }
   transform: translate(-28%, 28%);
   will-change: transform, opacity;
   animation: wave-sweep 2.1s linear infinite;
-  animation-delay: -.36s;
+  animation-delay: -.84s;
 }
 
 .card-tilt { background: #85bec8; }
